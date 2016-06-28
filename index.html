@@ -1,12 +1,14 @@
-<!DOCTYPE html>
+
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>Anagram Deployment - BAD</title>
+	<title>Anagrams</title>
+</head>
+<body>
+
   <style>
     body {
       color: #ffffff;
-      background-color: #FF0000;
+      background-color: #007f3f;
       font-family: Arial, sans-serif;
       font-size: 14px;
     }
@@ -22,14 +24,52 @@
       font-weight: normal;
       margin-bottom: 0;
     }
-  </style>
-</head>
-<body>
-  <div align="center">
-    <h1>No anagrams here!!!</h1>
-    <h2>This is just a boring page and probalby not what you are looking for :(</h2>
-    <p>Please try again.</p>
-  </div>
-</body>
-</html>
+    
+</style>
 
+<h3>Anagram generator</h3>
+
+<form name="f">
+<script>
+	var str,re,cnt,cntmax;
+
+	function rst(){
+		cnt=0; cntmax=10000; str="";
+		if (document.forms[0].re.value != ""){
+			re=new RegExp(document.forms[0].re.value);
+		} else { re=null; }
+	}
+
+	function go(prefix, postfix){
+		if (cnt>=cntmax) return;
+		if (postfix==""){
+			if (re==null || prefix.match(re)==null){
+				str+=prefix+"\r\n"; cnt++;
+			}
+			return;
+		}
+		for (var i=0;i<postfix.length;i++){
+			var prefix2=prefix+postfix.charAt(i);
+			var postfix2=postfix.substring(0,i)+postfix.substring(i+1);
+			go(prefix2,postfix2);
+		}
+	}
+</script>
+
+<table>
+<tr><td>Enter a word generate anagrams:</td><td><input type="text" name="t"></td></tr>
+<tr><td>Exclude these patterns:</td><td><input type="text" name="re"></td></tr>
+<tr><td colspan=2>
+<input type="button" value="Get Anagrams"
+onClick="javascript: rst(); go('', t.value); anagram.value=str; window.alert('Anagrams: '+cnt);"
+>
+</td></tr>
+</table>
+
+<br>
+<textarea name="anagram" rows=10 cols=40></textarea>
+</form>
+
+<p>
+
+</body></html>
